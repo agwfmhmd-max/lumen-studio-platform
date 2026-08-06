@@ -5,6 +5,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 const Home = lazy(() => import("./pages/Home"));
 const Admin = lazy(() => import("./pages/Admin"));
 const About = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.About })));
@@ -17,7 +18,8 @@ const Services = lazy(() => import("./pages/ContentPages").then(mod => ({ defaul
 const Work = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Work })));
 
 function Router() {
-  return <Suspense fallback={<div className="grid min-h-screen place-items-center bg-[#090909] text-sm text-[#a6a19a]">Loading Lumen…</div>}><Switch>
+  const { t } = useLanguage();
+  return <Suspense fallback={<div className="grid min-h-screen place-items-center bg-[#090909] text-sm text-[#a6a19a]">{t("loading")}</div>}><Switch>
     <Route path="/" component={Home} />
     <Route path="/about" component={About} />
     <Route path="/services" component={Services} />
@@ -42,10 +44,12 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
+        <LanguageProvider>
         <TooltipProvider>
           <Toaster />
           <Router />
         </TooltipProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
