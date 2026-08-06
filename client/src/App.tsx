@@ -8,6 +8,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 const Home = lazy(() => import("./pages/Home"));
 const Admin = lazy(() => import("./pages/Admin"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const About = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.About })));
 const Contact = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Contact })));
 const Journal = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Journal })));
@@ -29,6 +30,7 @@ function Router() {
     <Route path="/journal" component={Journal} />
     <Route path="/journal/:slug" component={PostDetail} />
     <Route path="/contact" component={Contact} />
+    <Route path="/admin/login" component={AdminLogin} />
     <Route path="/admin" component={Admin} />
     <Route path="/404" component={NotFound} />
     <Route component={NotFound} />

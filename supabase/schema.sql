@@ -103,7 +103,7 @@ create table if not exists public.contacts (
 
 create table if not exists public.settings (
   id int primary key default 1 check (id = 1),
-  site_name text not null default 'Lumen Studio',
+  site_name text not null default 'إنتاج للدعاية والإشهار',
   tagline text,
   logo_url text,
   logo_public_id text,
@@ -122,8 +122,8 @@ create table if not exists public.settings (
   updated_at timestamptz not null default now()
 );
 
-insert into public.settings (id, site_name, tagline, meta_title, meta_description)
-values (1, 'Lumen Studio', 'Stories with a pulse.', 'Lumen Studio — Stories with a pulse', 'Lumen Studio is an independent creative production studio crafting cinematic stories, brand worlds, and digital experiences.')
+insert into public.settings (id, site_name, tagline, meta_title, meta_description, email, instagram_url, linkedin_url, behance_url)
+values (1, 'إنتاج للدعاية والإشهار', 'إبداع يصنع أثرًا', 'إنتاج للدعاية والإشهار — استوديو إبداعي', 'إنتاج للدعاية والإشهار: صناعة أفلام وهويات بصرية وتجارب رقمية للعلامات الطموحة.', null, null, null, null)
 on conflict (id) do nothing;
 
 create index if not exists projects_category_idx on public.projects(category_id);
