@@ -34,6 +34,8 @@ const translations = {
   },
 } as const;
 
+export function applyLocaleDocumentSettings(locale: Locale) { document.documentElement.lang = locale; document.documentElement.dir = locale === "ar" ? "rtl" : "ltr"; }
+
 const LanguageContext = createContext<{ locale: Locale; setLocale: (locale: Locale) => void; t: (key: TranslationKey) => string }>({
   locale: "en", setLocale: () => undefined, t: key => translations.en[key],
 });
@@ -41,7 +43,7 @@ const LanguageContext = createContext<{ locale: Locale; setLocale: (locale: Loca
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => (localStorage.getItem("production-locale") as Locale) || "ar");
   const setLocale = (next: Locale) => { setLocaleState(next); localStorage.setItem("production-locale", next); };
-  useEffect(() => { document.documentElement.lang = locale; document.documentElement.dir = locale === "ar" ? "rtl" : "ltr"; }, [locale]);
+  useEffect(() => { applyLocaleDocumentSettings(locale); }, [locale]);
   const value = useMemo(() => ({ locale, setLocale, t: (key: TranslationKey) => translations[locale][key] }), [locale]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
