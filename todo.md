@@ -26,7 +26,7 @@
 - [x] تشغيل TypeScript check والاختبارات والبناء
 - [x] التحقق البصري responsive وتحسين الأداء
 - [x] إنشاء .env.example وتوثيق التشغيل وSQL
-- [ ] حفظ checkpoint النهائي وتسليم نسخة المشروع
+- [x] حفظ checkpoint النهائي وتسليم نسخة المشروع
 
 ## Change history
 
