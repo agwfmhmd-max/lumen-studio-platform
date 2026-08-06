@@ -4,7 +4,7 @@ create table if not exists public.users (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
   email text,
-  role text not null default 'admin' check (role in ('admin','editor')),
+  role text not null default 'editor' check (role in ('admin','editor')),
   created_at timestamptz not null default now()
 );
 
@@ -159,3 +159,40 @@ create policy "admin manage posts" on public.blog_posts for all using (public.is
 create policy "admin manage testimonials" on public.testimonials for all using (public.is_admin()) with check (public.is_admin());
 create policy "admin manage contacts" on public.contacts for all using (public.is_admin()) with check (public.is_admin());
 create policy "admin manage settings" on public.settings for all using (public.is_admin()) with check (public.is_admin());
+
+-- Keep the application profile synchronized with Supabase Auth.
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public
+as $$
+begin
+  insert into public.users (id, full_name, email)
+  values (new.id, coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name'), new.email)
+  on conflict (id) do update set email = excluded.email;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute procedure public.handle_new_user();
+
+create or replace function public.handle_updated_user()
+returns trigger language plpgsql security definer set search_path = public
+as $$
+begin
+  update public.users
+  set email = new.email,
+      full_name = coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name')
+  where id = new.id;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_updated on auth.users;
+create trigger on_auth_user_updated
+after update of email, raw_user_meta_data on auth.users
+for each row execute procedure public.handle_updated_user();
+
+-- Bootstrap the first administrator explicitly after creating the account:
+-- update public.users set role = 'admin' where email = 'admin@example.com';

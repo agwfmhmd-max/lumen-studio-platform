@@ -34,7 +34,7 @@
 
 ## Validation follow-up
 
-- [ ] ربط Supabase Auth بالكامل مع public.users والأدوار الإدارية وسياسات RLS
+- [x] ربط Supabase Auth بالكامل مع public.users والأدوار الإدارية وسياسات RLS
 - [ ] تنفيذ رفع وحذف Cloudinary end-to-end مع حفظ url وpublic_id داخل Supabase
 - [ ] استبدال fallback ببيانات Supabase الحقيقية مع حالات خطأ ظاهرة
 - [ ] إضافة صفحة تفاصيل الخدمة وربط مسار /services/:slug
