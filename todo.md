@@ -107,3 +107,9 @@
 - [x] إضافة إدارة العملاء ومعلوماتهم من لوحة المشرف وربطها بالمشاريع
 - [x] تمكين رفع صورة/فيديو المشروع مباشرة إلى Cloudinary مع توليد URL وpublic_id تلقائيًا
 - [x] إضافة اختبارات للتدفقات الجديدة وتشغيل check وtest وbuild ثم حفظ checkpoint
+
+## Vercel runtime deployment fix
+
+- [x] إصلاح خطأ Function Runtimes في Vercel والتحقق من صيغة vercel.json
+- [ ] التأكد من ظهور آخر تغييرات لوحة المشرف ورفع Cloudinary في النسخة المرفوعة
+- [ ] إعادة نشر Vercel والتحقق من ظهور آخر تغييرات لوحة المشرف ورفع Cloudinary، ثم حفظ checkpoint إصلاح جديد
