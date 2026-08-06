@@ -173,6 +173,7 @@ export default defineConfig({
           react: ["react", "react-dom"],
           motion: ["framer-motion"],
           ui: ["lucide-react", "sonner"],
+          data: ["@supabase/supabase-js", "@tanstack/react-query", "@trpc/client", "@trpc/react-query", "wouter", "zod"],
         },
       },
     },

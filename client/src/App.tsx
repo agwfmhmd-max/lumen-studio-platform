@@ -1,15 +1,23 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import { About, Contact, Journal, PostDetail, ProjectDetail, ServiceDetail, Services, Work } from "./pages/ContentPages";
-import Admin from "./pages/Admin";
+const Home = lazy(() => import("./pages/Home"));
+const Admin = lazy(() => import("./pages/Admin"));
+const About = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.About })));
+const Contact = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Contact })));
+const Journal = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Journal })));
+const PostDetail = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.PostDetail })));
+const ProjectDetail = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.ProjectDetail })));
+const ServiceDetail = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.ServiceDetail })));
+const Services = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Services })));
+const Work = lazy(() => import("./pages/ContentPages").then(mod => ({ default: mod.Work })));
 
 function Router() {
-  return <Switch>
+  return <Suspense fallback={<div className="grid min-h-screen place-items-center bg-[#090909] text-sm text-[#a6a19a]">Loading Lumen…</div>}><Switch>
     <Route path="/" component={Home} />
     <Route path="/about" component={About} />
     <Route path="/services" component={Services} />
@@ -22,7 +30,7 @@ function Router() {
     <Route path="/admin" component={Admin} />
     <Route path="/404" component={NotFound} />
     <Route component={NotFound} />
-  </Switch>;
+  </Switch></Suspense>;
 }
 
 // NOTE: About Theme
