@@ -1,33 +1,19 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { motion } from "framer-motion";
+import { ArrowDownRight, ArrowUpRight, Sparkles } from "lucide-react";
+import { Link } from "wouter";
+import { SiteShell } from "@/components/SiteShell";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const projects = [
+  { title: "Afterlight / A film for the in-between", type: "Brand film · 2025", image: "https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=1400&q=85", tone: "#d6b17d" },
+  { title: "Noma / A new language for movement", type: "Campaign · 2024", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1400&q=85", tone: "#94cbb6" },
+  { title: "Vela / Made for the long way", type: "Identity · 2024", image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1400&q=85", tone: "#ee806f" },
+];
+
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
-
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  return <SiteShell>
+    <section className="grid-lines relative min-h-[760px] overflow-hidden border-b border-white/10"><div className="orb left-[8%] top-[16%] h-40 w-40 bg-[#ee806f]/20"/><div className="orb right-[5%] top-[7%] h-72 w-72 bg-[#d6b17d]/20"/><div className="lumen-container relative flex min-h-[760px] flex-col justify-between pb-12 pt-24"><div className="flex items-center justify-between"><p className="eyebrow">Independent creative studio · 01—26</p><span className="hidden text-xs text-[#6f6b66] md:block">Scroll to explore ↓</span></div><div className="max-w-6xl"><motion.h1 initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, ease: [.23,1,.32,1] }} className="font-display text-[clamp(4rem,11vw,10rem)] leading-[.82] tracking-[-.06em]">We make<br/><span className="gradient-text italic">meaning</span> move.</motion.h1><div className="mt-10 flex flex-col justify-between gap-7 md:flex-row md:items-end"><p className="max-w-sm text-base leading-7 text-[#a6a19a]">Lumen is a creative production studio shaping films, identities, and digital worlds for people building what comes next.</p><div className="flex gap-3"><Link href="/work" className="lumen-btn lumen-btn-primary">Explore the work <ArrowUpRight size={15}/></Link><Link href="/about" className="lumen-btn lumen-btn-ghost">Our point of view <ArrowDownRight size={15}/></Link></div></div></div><div className="flex items-center justify-between border-t border-white/10 pt-5 text-[10px] uppercase tracking-[.16em] text-[#6f6b66]"><span>Film / Identity / Digital</span><span className="flex items-center gap-2"><Sparkles size={13} className="text-[#d6b17d]"/> New perspectives, always</span></div></div></section>
+    <section className="lumen-container py-28"><div className="mb-14 flex items-end justify-between"><div><p className="eyebrow mb-4">Selected work</p><h2 className="font-display text-5xl md:text-7xl">A few things<br/><span className="text-[#a6a19a]">we’ve made.</span></h2></div><Link href="/work" className="hidden items-center gap-2 text-xs text-[#d6b17d] md:flex">View all projects <ArrowUpRight size={15}/></Link></div><div className="grid gap-5 md:grid-cols-12">{projects.map((project, i) => <motion.div key={project.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: i*.1 }} className={`${i===0 ? 'md:col-span-7' : i===1 ? 'md:col-span-5 md:mt-20' : 'md:col-span-5 md:ml-16'} group`}><Link href={`/work/${i===0?'afterlight':i===1?'noma':'vela'}`}><div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-[#171717]"><img src={project.image} alt={project.title} loading="lazy" className="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-105 group-hover:opacity-100"/><div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"/><div className="absolute bottom-5 left-5 right-5 flex items-end justify-between"><div><p className="mb-2 text-[10px] uppercase tracking-[.17em]" style={{color:project.tone}}>{project.type}</p><h3 className="max-w-md text-lg font-semibold md:text-2xl">{project.title}</h3></div><span className="grid h-10 w-10 place-items-center rounded-full bg-white/10 backdrop-blur transition group-hover:bg-[#f4f0e9] group-hover:text-black"><ArrowUpRight size={17}/></span></div></div></Link></motion.div>)}</div></section>
+    <section className="border-y border-white/10 bg-[#111] py-28"><div className="lumen-container grid gap-14 md:grid-cols-12"><div className="md:col-span-5"><p className="eyebrow mb-5">What we do</p><h2 className="font-display text-5xl md:text-7xl">Ideas with<br/><span className="gradient-text">afterglow.</span></h2></div><div className="grid gap-4 md:col-span-7 md:grid-cols-2">{[['01','Brand films','A point of view, in motion.'],['02','Visual identity','Make it recognizable before it’s understood.'],['03','Digital experiences','Interfaces that feel like places.'],['04','Creative direction','The thread that holds it together.']].map(([n,t,d])=><Link href="/services" key={n} className="glass hover-lift rounded-2xl p-6"><span className="font-mono text-xs text-[#d6b17d]">{n}</span><h3 className="mt-12 text-xl font-semibold">{t}</h3><p className="mt-3 text-sm leading-6 text-[#a6a19a]">{d}</p><ArrowUpRight size={17} className="mt-7 text-[#6f6b66]"/></Link>)}</div></div></section>
+    <section className="lumen-container py-28"><div className="glass relative overflow-hidden rounded-3xl p-8 md:p-16"><div className="orb right-[-5%] top-[-40%] h-64 w-64 bg-[#d6b17d]/20"/><div className="relative flex flex-col justify-between gap-12 md:flex-row md:items-end"><div><p className="eyebrow mb-5">Have a good one?</p><h2 className="max-w-3xl font-display text-5xl leading-none md:text-8xl">Let’s make<br/><span className="gradient-text italic">something last.</span></h2></div><Link href="/contact" className="lumen-btn lumen-btn-primary whitespace-nowrap">Start a conversation <ArrowUpRight size={15}/></Link></div></div></section>
+  </SiteShell>;
 }
