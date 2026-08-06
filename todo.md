@@ -30,13 +30,13 @@
 
 ## Change history
 
-- [ ] اعتماد شرط المستخدم: لا توجد عناصر وهمية أو Placeholder غير وظيفية
+- [x] اعتماد شرط المستخدم: لا توجد عناصر وهمية أو Placeholder غير وظيفية
 
 ## Validation follow-up
 
 - [x] ربط Supabase Auth بالكامل مع public.users والأدوار الإدارية وسياسات RLS
 - [ ] تنفيذ رفع وحذف Cloudinary end-to-end مع حفظ url وpublic_id داخل Supabase
-- [ ] استبدال fallback ببيانات Supabase الحقيقية مع حالات خطأ ظاهرة
+- [x] استبدال fallback ببيانات Supabase الحقيقية مع حالات خطأ ظاهرة
 - [ ] إضافة صفحة تفاصيل الخدمة وربط مسار /services/:slug
 - [ ] إكمال عرض gallery والفيديو في تفاصيل المشروع
 - [ ] إكمال CRUD الفعلي للمشاريع والمقالات والعملاء والشهادات والإعدادات
