@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight, Check, Loader2, Send } from "lucide-react";
 import { Link, useLocation, useParams } from "wouter";
 import { PageIntro, SiteShell } from "@/components/SiteShell";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { createContact, getPost, getPosts, getProject, getProjects, getServices, BlogPost, Project, Service } from "@/lib/supabase";
+import { createContact, getPost, getPosts, getProject, getProjects, getServices, getSettings, BlogPost, Project, Service } from "@/lib/supabase";
 
 function ErrorNote({ message }: { message: string }) { return message ? <div role="alert" className="lumen-container pt-8 text-sm text-[#ee806f]">{message}</div> : null; }
 function EmptyNote({ message }: { message: string }) { return <div className="lumen-container py-16 text-center text-sm text-[#8c8881]">{message}</div>; }
@@ -36,6 +36,8 @@ export function PostDetail() { const { locale, t } = useLanguage(); const { slug
 
 export function Contact() { const { t } = useLanguage(); useMeta(t("brand"), t("contactDescription"));
   const [sent, setSent] = useState(false);
+  const [contactEmail, setContactEmail] = useState("");
+  useEffect(() => { getSettings().then(settings => setContactEmail(settings?.email || "")).catch(() => setContactEmail("")); }, []);
   const [loading, setLoading] = useState(false);
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +52,7 @@ export function Contact() { const { t } = useLanguage(); useMeta(t("brand"), t("
   return <SiteShell>
     <PageIntro eyebrow={t("startConversation")} title={<>{t("heroTellUs")}<br/><span className="gradient-text italic">{t("heroImagining")}</span></>} description={t("makeSomethingLast")} />
     <section className="lumen-container grid gap-16 py-20 md:grid-cols-12">
-      <div className="md:col-span-4"><p className="eyebrow mb-6">{t("contactLabel")}</p><p className="text-sm leading-7 text-[#a6a19a]">{t("contactDescription")}</p><a className="mt-8 block text-lg text-[#d6b17d]" href="mailto:hello@lumen.studio">hello@lumen.studio</a></div>
+      <div className="md:col-span-4"><p className="eyebrow mb-6">{t("contactLabel")}</p><p className="text-sm leading-7 text-[#a6a19a]">{t("contactDescription")}</p>{contactEmail && <a className="mt-8 block text-lg text-[#d6b17d]" href={`mailto:${contactEmail}`}>{contactEmail}</a>}</div>
       <form onSubmit={submit} className="glass rounded-3xl p-7 md:col-span-8 md:p-10">
         {sent ? <div className="flex min-h-72 flex-col items-center justify-center text-center"><span className="mb-5 grid h-14 w-14 place-items-center rounded-full bg-[#94cbb6] text-black"><Check /></span><h2 className="font-display text-4xl">{t("sentMessage")}</h2><p className="mt-3 text-sm text-[#a6a19a]">{t("messageThanks")}</p></div> : <>
           <div className="grid gap-6 md:grid-cols-2"><label className="text-xs text-[#a6a19a]">{t("contactName")}<input required name="name" className="mt-2 w-full border-b border-white/15 bg-transparent py-3 text-base text-white outline-none focus:border-[#d6b17d]" /></label><label className="text-xs text-[#a6a19a]">{t("contactEmail")}<input required type="email" name="email" className="mt-2 w-full border-b border-white/15 bg-transparent py-3 text-base text-white outline-none focus:border-[#d6b17d]" /></label></div>

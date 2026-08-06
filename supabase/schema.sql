@@ -109,6 +109,7 @@ create table if not exists public.settings (
   logo_public_id text,
   favicon_url text,
   phone text,
+  whatsapp text,
   email text,
   address text,
   instagram_url text,
@@ -117,6 +118,10 @@ create table if not exists public.settings (
   vimeo_url text,
   google_maps_url text,
   google_analytics_id text,
+  announcement_text text,
+  announcement_url text,
+  announcement_image_url text,
+  announcement_active boolean not null default false,
   meta_title text,
   meta_description text,
   updated_at timestamptz not null default now()
